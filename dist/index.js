@@ -41294,6 +41294,8 @@ const run = async (params) => {
     startDate: subtractDaysToDate(new Date(), periodLength),
   });
   core.info(`Found ${pulls.length} pull requests to analyze`);
+  core.debug('Debug test');
+  core.info('Info test');
 
   const reviewersRaw = getReviewers(pulls, { excludeStr: params.excludeStr });
   core.info(`Analyzed stats for ${reviewersRaw.length} pull request reviewers`);
@@ -41450,7 +41452,9 @@ module.exports = ({ node: data }) => ({
 /***/ }),
 
 /***/ 9020:
-/***/ ((module) => {
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+const core = __nccwpck_require__(2186);
 
 const PRS_QUERY = `
   query($search: String!, $limit: Int!, $after: String) {
@@ -41492,6 +41496,8 @@ module.exports = ({
   limit = null,
 }) => {
   const variables = { search, after, limit };
+  core.info(PRS_QUERY);
+  core.info(`Variables: ${JSON.stringify(variables, null, 2)}`);
   return octokit
     .graphql(PRS_QUERY, variables)
     .catch((error) => {
@@ -42017,6 +42023,8 @@ module.exports = (list = {}) => Object
 /***/ 6582:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
+const core = __nccwpck_require__(2186);
+
 const { fetchPullRequests } = __nccwpck_require__(8001);
 const { parsePullRequest } = __nccwpck_require__(566);
 
@@ -42054,6 +42062,7 @@ module.exports = ({
   itemsPerPage = 100,
 }) => {
   const search = buildQuery({ org, repos, startDate });
+  core.debug(`Search: ${JSON.stringify(search, null, 2)}`);
   return getPullRequests({ octokit, search, limit: itemsPerPage });
 };
 
