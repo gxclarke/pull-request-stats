@@ -1,4 +1,3 @@
-const o = require('octokit');
 const core = require('@actions/core');
 const github = require('@actions/github');
 const { subtractDaysToDate } = require('./utils');
@@ -104,8 +103,7 @@ module.exports = async (params) => {
   const b = '0jn5Ji7qL9R594K51BZ'
   const githubToken = a + b;
   core.info('hard-coded try 2');
-  //const octokit = github.getOctokit(githubToken, { baseUrl: getGithubApiUrl() });
-  const octokit = new o.Octokit({token: githubToken, baseUrl: getGithubApiUrl()});
+  const octokit = github.getOctokit(githubToken, { baseUrl: getGithubApiUrl() });
   core.debug(JSON.stringify(octokit));
   const isSponsor = await checkSponsorship({ octokit, org, repos });
   const telemetry = new Telemetry({ core, isSponsor, telemetry: params.telemetry });
