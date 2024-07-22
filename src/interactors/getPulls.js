@@ -18,6 +18,7 @@ const buildQuery = ({ org, repos, startDate }) => {
 const getPullRequests = async (params) => {
   const { limit } = params;
   const data = await fetchPullRequests(params);
+  core.info(`Data: ${JSON.stringify(data)}`);
   const edges = data.search.edges || [];
   const results = edges
     .filter(filterNullAuthor)
