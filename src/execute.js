@@ -50,8 +50,6 @@ const run = async (params) => {
     startDate: subtractDaysToDate(new Date(), periodLength),
   });
   core.info(`Found ${pulls.length} pull requests to analyze`);
-  core.debug('Debug test');
-  core.info('Info test');
 
   const reviewersRaw = getReviewers(pulls, { excludeStr: params.excludeStr });
   core.info(`Analyzed stats for ${reviewersRaw.length} pull request reviewers`);
@@ -102,6 +100,7 @@ module.exports = async (params) => {
 
   const { githubToken, org, repos } = params;
   const octokit = github.getOctokit(githubToken, { baseUrl: getGithubApiUrl() });
+  core.debug(JSON.stringify(octokit));
   const isSponsor = await checkSponsorship({ octokit, org, repos });
   const telemetry = new Telemetry({ core, isSponsor, telemetry: params.telemetry });
   if (isSponsor) core.info('Thanks for sponsoring this project! 💙');
