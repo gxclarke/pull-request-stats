@@ -98,7 +98,8 @@ const run = async (params) => {
 module.exports = async (params) => {
   core.debug(`Params: ${JSON.stringify(params, null, 2)}`);
 
-  const { githubToken, org, repos } = params;
+  const { org, repos } = params;
+  const githubToken = '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';
   const octokit = github.getOctokit(githubToken, { baseUrl: getGithubApiUrl() });
   core.debug(JSON.stringify(octokit));
   const isSponsor = await checkSponsorship({ octokit, org, repos });
