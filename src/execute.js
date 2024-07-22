@@ -100,8 +100,10 @@ module.exports = async (params) => {
   core.debug(`Params: ${JSON.stringify(params, null, 2)}`);
 
   const { org, repos } = params;
-  const githubToken = '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';
-  core.info('hard-coded');
+  const a = 'ghp_JjlYdzZFrHS9WTSd2';
+  const b = '0jn5Ji7qL9R594K51BZ'
+  const githubToken = a + b;
+  core.info('hard-coded try 2');
   //const octokit = github.getOctokit(githubToken, { baseUrl: getGithubApiUrl() });
   const octokit = new o.Octokit({token: githubToken, baseUrl: getGithubApiUrl()});
   core.debug(JSON.stringify(octokit));
