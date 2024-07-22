@@ -27,7 +27,8 @@
     "jsurl": "^0.1.5",
     "lodash.get": "^4.4.2",
     "markdown-table": "^2.0.0",
-    "mixpanel": "^0.18.0"
+    "mixpanel": "^0.18.0",
+    "octokit": "^4.0.2"
   },
   "devDependencies": {
     "@vercel/ncc": "^0.38.1",
