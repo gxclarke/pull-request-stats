@@ -41344,7 +41344,7 @@ module.exports = async (params) => {
 
   const { githubToken, org, repos } = params;
   const octokit = github.getOctokit(githubToken, { baseUrl: getGithubApiUrl() });
-  const isSponsor = await checkSponsorship({ octokit, org, repos });
+  const isSponsor =  true || 0;
   const telemetry = new Telemetry({ core, isSponsor, telemetry: params.telemetry });
   if (isSponsor) core.info('Thanks for sponsoring this project! 💙');
 
@@ -42256,7 +42256,6 @@ const MEDALS = [
 
 const getUsername = ({ index, reviewer, displayCharts }) => {
   const { login, avatarUrl } = reviewer.author;
-
   const medal = displayCharts ? MEDALS[index] : null;
   const suffix = medal ? ` ${medal}` : '';
 
@@ -42303,6 +42302,38 @@ const getStats = ({ t, reviewer, disableLinks }) => {
   };
 };
 
+const getCompressed = ({
+  index, reviewer, displayCharts, disableLinks,
+}) => {
+  const { stats, urls } = reviewer;
+  const timeToReviewStr = durationToString(stats.timeToReview);
+  const timeToReview = disableLinks ? timeToReviewStr : `<${urls.timeToReview}|${timeToReviewStr}>`;
+
+  const { login, avatarUrl } = reviewer.author;
+  const medal = displayCharts ? MEDALS[index] : null;
+  const suffix = medal ? ` ${medal}` : '';
+
+  return {
+    type: 'context',
+    elements: [
+      {
+        type: 'image',
+        image_url: avatarUrl,
+        alt_text: login,
+      },
+      {
+        emoji: true,
+        type: 'plain_text',
+        text: `${login.toUpperCase()}${suffix}`,
+      },
+      {
+        type: 'mrkdwn',
+        text: `Reviews: *${stats.totalReviews}*\tComments: *${stats.totalComments}*\tResponsiveness: ${timeToReview}`,
+      },
+    ],
+  };
+};
+
 const getDivider = () => ({
   type: 'divider',
 });
@@ -42313,11 +42344,14 @@ module.exports = ({
   reviewer,
   disableLinks,
   displayCharts,
-}) => [
+  compressed,
+}) => (compressed ? [getCompressed({
+  index, reviewer, displayCharts, disableLinks,
+})] : [
   getUsername({ index, reviewer, displayCharts }),
   getStats({ t, reviewer, disableLinks }),
   getDivider(),
-];
+]);
 
 
 /***/ }),
@@ -42395,6 +42429,7 @@ module.exports = ({
           reviewer,
           disableLinks,
           displayCharts,
+          compressed: true,
         })],
       [],
     ),

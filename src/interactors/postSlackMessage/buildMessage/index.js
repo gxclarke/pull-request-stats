@@ -29,6 +29,7 @@ module.exports = ({
           reviewer,
           disableLinks,
           displayCharts,
+          compressed: true,
         })],
       [],
     ),
